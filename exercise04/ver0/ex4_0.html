@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+//text and color don't  change suddenly and date time not display
+<html>
+  <head></head>
+  <body>
+    <div id="maincontainer"></div>
+    <script>
+      var main_cont = document.getElementById("maincontainer");
+      var H1_tag = document.createElement("H1");
+      var H1_txt = document.createTextNode("Exercise 04_0: JavaScript&DOM");
+      H1_tag.appendChild(H1_txt);
+      main_cont.appendChild(H1_tag);
+
+      let btn = document.createElement("button");
+      btn.innerHTML = "Click me to display Date and Time";
+      main_cont.appendChild(btn);
+
+      let isClicked = false;
+      let colorIndex = 0;
+      let colors = ["#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF"];
+      let intervalId;
+
+      btn.onclick = function () {
+        if (!isClicked) {
+          isClicked = true;
+          let worker = new Worker("worker.js");
+          worker.onmessage = function (event) {
+            btn.innerHTML = event.data;
+          };
+          btn.style.position = "fixed";
+          btn.style.top = "0";
+          btn.style.right = "0";
+          intervalId = setInterval(function () {
+            btn.style.backgroundColor = colors[colorIndex];
+            btn.style.color = colors[colorIndex];
+            colorIndex = (colorIndex + 1) % colors.length;
+          }, 1000);
+        } else {
+          isClicked = false;
+          btn.innerHTML = "Click me to display Date and Time";
+          btn.style.position = "static";
+          clearInterval(intervalId);
+        }
+      };
+    </script>
+    <script type="module">
+      let worker = new Worker("colorworker.js");
+      worker.onmessage = function (event) {
+        let colors = event.data;
+        setInterval(function () {
+          let btn = document.querySelector("button");
+          if (btn.style.backgroundColor !== colors[0]) {
+            colors.push(colors.shift());
+          }
+          btn.style.backgroundColor = colors[0];
+          btn.style.color = colors[0];
+        }, 1000);
+      };
+    </script>
+  </body>
+</html>

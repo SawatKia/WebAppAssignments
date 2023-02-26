@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <div id="maincontainer"></div>
+    <script>
+      var main_cont = document.getElementById("maincontainer");
+      var H1_tag = document.createElement("H1");
+      var H1_txt = document.createTextNode("Exercise 04: JavaScript&DOM");
+      H1_tag.appendChild(H1_txt);
+      main_cont.appendChild(H1_tag);
+
+      let btn = document.createElement("button");
+      btn.innerHTML = "Click me to display Date and Time";
+      main_cont.appendChild(btn);
+
+      let isClicked = false;
+      let intervalId;
+      let bgColor, textColor, DT;
+
+      btn.onclick = function () {
+        if (!isClicked) {
+          isClicked = true;
+          btn.style.position = "fixed";
+          btn.style.top = "0";
+          btn.style.right = "0";
+
+          // Immediately change the color after button click
+          const colorWorker = new Worker("worker.js");
+          colorWorker.postMessage({ type: "changecolor" });
+          colorWorker.onmessage = function (event) {
+            bgColor = event.data.bgColor;
+            textColor = event.data.textColor;
+            btn.style.backgroundColor = bgColor;
+            btn.style.color = textColor;
+          };
+
+          // Immediately show the date after button click
+          DT = new Date().toLocaleString();
+          btn.innerHTML = DT;
+
+          // Set interval to update the date every second
+          intervalId = setInterval(function () {
+            DT = new Date().toLocaleString();
+            btn.innerHTML = DT;
+          }, 1000);
+        } 
+        else {
+          isClicked = false;
+          btn.style.position = "static";
+          clearInterval(intervalId);
+          btn.style.backgroundColor = bgColor;
+          btn.style.color = textColor;
+          btn.innerHTML = DT;
+          colorWorker.terminate();
+          colorWorker = undefined;
+        }
+      };
+    </script>
+  </body>
+</html>

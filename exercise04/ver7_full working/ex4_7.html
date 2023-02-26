@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+
+<head></head>
+
+<body>
+    <div id="maincontainer"></div>
+    <script>
+        var main_cont = document.getElementById("maincontainer");
+        var H2_tag = document.createElement("H2");
+        var H2_txt = document.createTextNode("Exercise 04: JavaScript&DOM");
+        H2_tag.appendChild(H2_txt);
+        main_cont.appendChild(H2_tag);
+
+        let btn = document.createElement("button");
+        btn.innerHTML = "Click me to display Date and Time";
+        main_cont.appendChild(btn);
+
+        let isClicked = false;
+        let intervalId;
+        let bgColor, textColor;
+        let currentColorPairIndex = 0;
+        let w;
+
+        function getColorPair() {
+            // Return one of 6 pre-defined color pairs for background and text
+            const colorPairs = [
+                { bgColor: "#205E61", textColor: "#8BF5FA" }, // 1
+                { bgColor: "#3E0262", textColor: "#29DD41" }, // 2
+                { bgColor: "#290209", textColor: "#59FB42" }, // 3
+                { bgColor: "#6E2834", textColor: "#D1DA3B" }, // 4
+                { bgColor: "#32AABC", textColor: "#E14EC8" }, // 5
+                { bgColor: "#9AB8D9", textColor: "#8F21D3" }  // 6
+            ];
+
+            const colorPair = colorPairs[currentColorPairIndex];
+            currentColorPairIndex = (currentColorPairIndex + 1) % colorPairs.length;
+            return colorPair;
+        }
+
+        btn.onclick = function () {
+            if (!isClicked) {
+                isClicked = true;
+                bgColor = getColorPair().bgColor;
+                textColor = getColorPair().textColor;
+                btn.innerHTML = new Date();
+                btn.style.backgroundColor = bgColor;
+                btn.style.color = textColor;
+                btn.style.position = "fixed";
+                btn.style.top = "0";
+                btn.style.right = "0";
+                intervalId = setInterval(function () {
+                    bgColor = getColorPair().bgColor;
+                    textColor = getColorPair().textColor;
+                    btn.style.backgroundColor = bgColor;
+                    btn.style.color = textColor;
+                }, 1000);
+
+                if (typeof (Worker) !== "undefined") {
+                    if (typeof (w) == "undefined") {
+                        w = new Worker("worker.js");
+                    }
+                    w.onmessage = function (event) {
+                        btn.innerHTML = event.data.dateTime;
+                    };
+                }
+                else {
+                    btn.innerHTML = "Web Workers are not supported by your browser.";
+                }
+            }
+            else {
+                isClicked = false;
+                clearInterval(intervalId);
+                btn.style.position = "static";
+                btn.style.backgroundColor = bgColor;
+                btn.style.color = textColor;
+                w.terminate();
+                w = undefined;
+            }
+        };
+
+        var P_p = document.createElement("p");
+        var P_a = document.createElement("a");
+        P_a.id = "personal-inf";
+        P_a.innerHTML = "Personal Info";
+        P_p.appendChild(P_a);
+        main_cont.appendChild(P_p);
+        P_a.href = "#";
+
+        // function toggleDisplay(img) {
+        //     if (img.style.display === 'none') {//checks if the img is currently hidden, and if so
+        //         if (currentImage) {// is there any picture displaying?
+        //             currentImage.style.display = 'none'; //it hides the previously displayed image
+        //         }
+        //         Inst_banner.style.display = 'none';
+        //         img.style.display = 'block'; //displays the new image
+        //         currentImage = img; //and updates the 'currentImage'
+        //     } else {
+        //         img.style.display = 'none';
+        //         currentImage = null;
+        //     }
+        // }
+        function toggleDisplay(img, list) {
+            if (img.style.display === 'none') {
+                if (currentImage) {
+                    currentImage.style.display = 'none';
+                }
+                Inst_banner.style.display = 'none';
+                img.style.display = 'block';
+                currentImage = img;
+            }
+            else {
+                img.style.display = 'none';
+                currentImage = null;
+            }
+
+            if (list.style.display === 'none') {
+                list.style.display = 'block';
+            }
+            else {
+                list.style.display = 'none';
+            }
+        }
+
+        // select the Personal Info link
+        var personalInfoLink = document.getElementById("personal-inf");
+        // save the original background and text color of the link
+        var originalBgColor = personalInfoLink.style.backgroundColor;
+        var originalTextColor = personalInfoLink.style.color;
+        // add mouseover event listener to the link
+        personalInfoLink.addEventListener("mouseover", function () {
+            // set background and text color of the link
+            personalInfoLink.style.backgroundColor = "#32AABC";
+            personalInfoLink.style.color = "#59FB42";
+        });
+        // add mouseout event listener to the link
+        personalInfoLink.addEventListener("mouseout", function () {
+            // set the link back to its original background and text color
+            personalInfoLink.style.backgroundColor = originalBgColor;
+            personalInfoLink.style.color = originalTextColor;
+        });
+
+        P_a.onclick = function () {
+            var list = document.querySelector(".list");
+            var dummy = document.createElement("img");
+            toggleDisplay(dummy,list);
+        }
+
+        var ul = document.createElement("ul");
+        ul.className = "list";
+        ul.style.display = "none";
+        var li1 = document.createElement("li");
+        li1.innerHTML = "Sawat Lapprasertlum, 61011085.";
+        ul.appendChild(li1);
+        var li2 = document.createElement("li");
+        li2.innerHTML = "Web Application Development, 01076118-19.";
+        ul.appendChild(li2);
+        var li3 = document.createElement("li");
+        li3.innerHTML = "Semester 2, Year 2022";
+        ul.appendChild(li3);
+        main_cont.appendChild(ul);
+
+        var h1 = document.createElement("h1");
+        h1.innerHTML = "Snapshots";
+        main_cont.appendChild(h1);
+
+        // create list container
+        var S_ul = document.createElement("ul");
+        S_ul.id = "snapshots";
+
+        var currentImage = null;//set to null because no image is being displayed
+
+
+        // when another list item is clicked, the previous image is hidden and the new image is displayed.
+        // To achieve this, the code checks if "currentImage" is not null, meaning there is a currently displayed image,
+        //  and hides it before showing the new image.Finally, "currentImage" is updated to refer to the new image.
+
+        // Create first list item and image
+        var S_li1 = document.createElement("li");
+        var img1 = document.createElement("img");
+        var a1 = document.createElement("a");
+        a1.href = "#";
+        img1.src = "https://source.unsplash.com/random/400x1200";
+        img1.style.display = "none";
+
+        a1.onclick = function () {
+            toggleDisplay(img1);
+        };
+
+        S_li1.innerHTML = "Random image";
+        a1.appendChild(S_li1);
+        S_ul.appendChild(a1);
+        main_cont.appendChild(S_ul);
+        main_cont.appendChild(img1);
+
+        // Create second list item and image
+        var S_li2 = document.createElement("li");
+        var img2 = document.createElement("img");
+        var a2 = document.createElement("a");
+        a2.href = "#";
+        img2.src = "https://www.shutterstock.com/image-illustration/future-city-on-coast3d-render-600w-732378577.jpg";
+        img2.style.display = "none";
+        S_li2.innerHTML = "Future City";
+        a2.appendChild(S_li2);
+        S_ul.appendChild(a2);
+        main_cont.appendChild(img2);
+
+        a2.onclick = function () {
+            toggleDisplay(img2);
+        };
+
+        // Create third list item and image
+        var S_li3 = document.createElement("li");
+        var img3 = document.createElement("img");
+        var a3 = document.createElement("a");
+        a3.href = "#";
+        img3.src = "https://www.shutterstock.com/image-photo/blue-helix-human-dna-structure-600w-1669326868.jpg";
+        img3.style.display = "none";
+        S_li3.innerHTML = "DNA";
+        a3.appendChild(S_li3);
+        S_ul.appendChild(a3);
+        main_cont.appendChild(img3);
+
+        a3.onclick = function () {
+            toggleDisplay(img3);
+        };
+
+        // Create fourth list item and image
+        var S_li4 = document.createElement("li");
+        var img4 = document.createElement("img");
+        var a4 = document.createElement("a");
+        a4.href = "#";
+        img4.src = "https://www.shutterstock.com/image-photo/robotics-development-laboratory-engineer-uses-600w-1837865629.jpg";
+        img4.style.display = "none";
+        S_li4.innerHTML = "Exoskeleton";
+        a4.appendChild(S_li4);
+        S_ul.appendChild(a4);
+        main_cont.appendChild(img4);
+
+        a4.onclick = function () {
+            toggleDisplay(img4);
+        };
+
+
+        var Inst_banner = document.createElement("img");
+        Inst_banner.src = "https://scontent.fbkk29-4.fna.fbcdn.net/v/t31.18172-8/259106_175069885887262_183888_o.jpg?_nc_cat=111&ccb=1-7&_nc_sid=174925&_nc_eui2=AeHcibVTEcnHW_yjMZoqp4PX2oe48ex-Ds7ah7jx7H4Ozp0X8aiKURXeIcK_RLdUZYszeDWmyRHzkTXF4j84Wr5t&_nc_ohc=MWSTdmcg6W0AX-49zwL&_nc_ht=scontent.fbkk29-4.fna&oh=00_AfBPkdkX86MOGhMyG7_CDAS0nPnvNYIfNPXhtCLIICdxhQ&oe=64186107";
+        Inst_banner.style.width = "750px";
+        main_cont.appendChild(Inst_banner);
+
+    </script>
+</body>
+
+</html>

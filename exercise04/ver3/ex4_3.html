@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+//text and color don't change suddenly but the second is running and bg color is stay after 2nd click 
+<html>
+  <head></head>
+  <body>
+    <div id="maincontainer"></div>
+    <script>
+      var main_cont = document.getElementById("maincontainer");
+      var H1_tag = document.createElement("H1");
+      var H1_txt = document.createTextNode("Exercise 04_3: JavaScript&DOM");
+      H1_tag.appendChild(H1_txt);
+      main_cont.appendChild(H1_tag);
+
+      let btn = document.createElement("button");
+      btn.innerHTML = "Click me to display Date and Time";
+      main_cont.appendChild(btn);
+
+      let isClicked = false;
+      let intervalId;
+      let worker;
+
+      btn.onclick = function () {
+        if (!isClicked) {
+          isClicked = true;
+          worker = new Worker("worker.js");
+          worker.onmessage = function (event) {
+            btn.innerHTML = event.data;
+          };
+          worker.postMessage("start");
+          btn.style.position = "fixed";
+          btn.style.top = "0";
+          btn.style.right = "0";
+          intervalId = setInterval(function () {
+            btn.style.backgroundColor = getRandomColor();
+            btn.style.color = getRandomColor();
+          }, 1000);
+        } else {
+          isClicked = false;
+          btn.innerHTML = "Click me to display Date and Time";
+          worker.postMessage("stop");
+          btn.style.position = "static";
+          clearInterval(intervalId);
+        }
+      };
+
+      function getRandomColor() {
+        return "#" + Math.floor(Math.random() * 16777215).toString(16);
+      }
+    </script>
+  </body>
+</html>
