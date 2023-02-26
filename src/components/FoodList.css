@@ -1,0 +1,84 @@
+.food-list-container {
+  display: flex;
+  align-items: center;
+  background-color: #FDEBD7;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  border: 2px solid black;
+}
+
+.food-list-text {
+  margin-left: 10px;
+  flex: 3;
+}
+
+.food-list-image {
+  flex: 1;
+}
+
+.food-list-image img {
+  width: 100%;
+}
+.food-list-vote-container {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.food-list-vote-container button {
+  margin-right: 10px;
+  padding: 10px 5px ;
+  font-size: 1.1em;
+}
+.food-list-vote-container p {
+  background-color: #79E400;
+  border: 3px solid #3C4225;
+  border-radius: 5px;
+  color: #8539DD;
+  padding: 5px;
+  margin: 0;
+  font-weight: bolder;
+  font-size: large;
+  text-align: center;
+  width: 50px;
+}
+
+@media (max-width: 768px) {
+  .food-list-container {
+    flex-direction: column;
+  }
+
+  .food-list-text {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .food-list-image {
+    margin-top: 10px;
+  }
+
+  .food-list-vote-container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .food-list-vote-container button {
+    font-size: 14px;
+    padding: 5px 10px;
+  }
+
+  .food-list-vote-container p {
+    font-size: 18px;
+    margin: 0 10px;
+    padding: 5px 10px;
+    border: 2px solid #fca311;
+    background-color: #fca311;
+    color: white;
+    border-radius: 5px;
+  }
+}
+
+
