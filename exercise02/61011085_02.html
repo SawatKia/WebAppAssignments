@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>exercise002_Mark02</title>
+    <style>
+      body{
+            display: grid;
+            grid-template-columns:repeat(2,1fr);
+            grid-template-areas: 
+            'header header'
+            'article article'
+            'report report'
+            'content content'
+            'progress quoto'
+            'lucky quoto'
+            'footer footer'
+            ;
+            max-width: 65%;
+            margin: auto;
+        }
+        header,footer{
+            text-align: center;
+        }
+        header.top{
+            grid-area: header;
+            color: blue;
+            height: 20px;
+            font-size: 12px;
+            padding-bottom: 30px;
+            background-color:gold;    
+        }
+        header.article{
+            grid-area: article;
+            color: pink;
+            
+        }
+        article{
+            margin-left: 10%;
+            margin-right: 10%;
+            display: grid;
+            grid-area: content ;
+            grid-template-rows: 1;
+            grid-template-columns: 2;
+        }
+
+        .col1{
+            grid-column: 1;
+
+            
+        }        
+        .col2{
+            grid-column: 2;
+        }
+        div.reporter{
+            margin-left: 10%;
+            margin-right: 10%;
+            grid-area : report;
+            display: grid;
+            grid-template-areas: 'auto image' 'text image';
+            grid-template-rows: 80px;
+            color:steelblue;
+        }
+        img{
+            grid-area: image;
+            margin-left: auto;
+        }
+
+        time{
+            grid-area: text;
+            color: lightcoral;
+        }
+
+        .prog{
+            grid-area: progress;
+            margin-left: 10%;
+        }
+
+        aside p{
+            grid-area: quoto;
+            font-size: 60px;
+            border-top: 3px solid black;
+            border-bottom: 3px solid black;
+            margin-right: 10%;
+        }
+        .luckd{
+            grid-area: lucky;
+            margin-left: 10%;
+            
+        }
+
+        footer{
+            grid-area: footer;
+            color: blue;
+            background-color:gold;  
+            text-align: center;
+        }
+
+    </style>
+  </head>
+
+  <body>
+    <header class="top">
+      <h1>SW Studio Today</h1>
+    </header>
+    <header class="article">
+      <h2>The record of the CSS class</h2>
+    </header>
+
+    <div class="reporter">
+      <img
+        src="https://previews.123rf.com/images/gmast3r/gmast3r1809/gmast3r180900199/109840480-brunette-businessman-avatar-man-face-profile-icon-concept-online-support-service-male-cartoon-charac.jpg"
+        alt="picture"
+        width="200"
+      />
+      Reported by <br />
+      Mr.Sawat Laprasertlum<br />
+      (Kia)<br />
+      ID 61011085<br /><br />
+      <time datetime="2023-01-26">Jan 26,2023</time>
+    </div>
+    <article>
+      <section class="col1">
+        <h3>Introduction</h3>
+        <p>describe your background about CSS e.g.</p>
+        <ul>
+          <li>do you know CSS?</li>
+          <li>Have you ever been using CSS?</li>
+          <li>Have you ever worked with CSS before?</li>
+          <li>Have you any idea how CSS works?</li>
+          <li>What are you expecting from CSS?</li>
+          <li>etc.</li>
+        </ul>
+      </section>
+
+      <section class="col2">
+        <h3>The expectation</h3>
+        <p>Describe your expectations for today's class</p>
+        <p>You can list it like this:</p>
+        <ol>
+          <li>expect #1</li>
+          <li>expect #2</li>
+          <li>expect #3</li>
+        </ol>
+      </section>
+    </article>
+
+    <aside>
+      <p>
+        <em>
+          your quote of<br/>
+          today's class</em
+        >
+      </p>
+    </aside>
+
+    <section class="prog">
+      <p>Progress of today's class 
+        <progress value="6" max="8"></progress>
+      </p>
+    </section>
+
+    <section class="luckd">
+      <p>register for lucky draw</p>
+      <form>
+        <fieldset>
+          <label>Name:</label><em>*</em>
+          <input
+            type="text"
+            id="name"
+            placeholder="John Smith"
+            autofocus
+            required
+          /><br />
+          <label>email:</label><em>*</em>
+          <input
+            type="email"
+            id="email"
+            placeholder="abc@def.com"
+            autofocus
+            required
+          /><br />
+          <label>Tel:</label><em>*</em>
+          <input
+            type="tel"
+            id="tel"
+            placeholder="0xx-xxxxxxx"
+            pattern="[0-9]{3}-[0-9]{7}"
+            autofocus
+            required
+          /><br />
+          <input type="submit" />
+        </fieldset>
+      </form>
+    </section>
+    <footer>ce.kmitl all rights reserved & copyright 2020</footer>
+  </body>
+</html>
